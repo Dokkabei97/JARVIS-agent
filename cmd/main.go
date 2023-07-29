@@ -1,11 +1,16 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
+	"JARVIS-agent/router"
+	"fmt"
 )
 
 func main() {
-	r := gin.Default()
+	const port = ":5500"
+	server := router.SetRouter()
 
-	r.Run()
+	err := server.Run(port)
+	if err != nil {
+		fmt.Printf("Error: %v\n", err)
+	}
 }
