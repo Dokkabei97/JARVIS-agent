@@ -1,0 +1,28 @@
+deploy:
+  type: on-premise
+  host: localhost
+  scriptPath: /scripts/deploy.sh
+  logPath: /logs/application.log
+---
+deploy:
+  type: docker
+  host: localhost
+  scriptPath: /scripts/deploy.sh
+  logPath: /logs/application.log
+---
+deploy:
+  type: docker
+  host: localhost
+  composePath: /compose/docker-compose.yml
+  scriptPaths:
+    - /scripts/deploy.sh
+    - /scripts/deploy2.sh
+  makePath: /makefile
+  logPath: /logs/application.log
+---
+deploy:
+  type: kube
+  host: localhost
+  kubeYamlPath: /kube/deploy.yml
+  scriptPath: /scripts/deploy.sh
+  logPath: /logs/application.log
