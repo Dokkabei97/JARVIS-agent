@@ -26,3 +26,20 @@ deploy:
   kubeYamlPath: /kube/deploy.yml
   scriptPath: /scripts/deploy.sh
   logPath: /logs/application.log
+---
+deploy:
+  type: on-premise
+  script:
+    - scriptType: bash
+      scriptPath: /scripts/deploy.sh
+    - scriptType: python
+      scriptPath: /scripts/deploy.py
+  makefile:
+    - makefilePath: /Makefile
+      makefileTarget:
+        - build
+        - deploy
+  log:
+    logPath:
+      - /logs/application.log
+      - /logs/error.log
