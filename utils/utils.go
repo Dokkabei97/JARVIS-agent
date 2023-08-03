@@ -1,15 +1,17 @@
 package utils
 
 import (
+	"JARVIS-agent/model"
 	"fmt"
 	"gopkg.in/yaml.v3"
 	"os"
 )
 
 type Config struct {
-	OnPremise string `yaml:"onPremise,omitempty"`
-	Docker    string `yaml:"docker,omitempty"`
-	Kube      string `yaml:"kube,omitempty"`
+	Common    model.Common `yaml:"common,omitempty"`
+	OnPremise string       `yaml:"onPremise,omitempty"`
+	Docker    string       `yaml:"docker,omitempty"`
+	Kube      string       `yaml:"kube,omitempty"`
 }
 
 func (config *Config) GetYamlFile(filepath string) *Config {

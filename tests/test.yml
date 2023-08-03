@@ -35,10 +35,10 @@ deploy:
     - scriptType: python
       scriptPath: /scripts/deploy.py
   makefile:
-    - makefilePath: /Makefile
-      makefileTarget:
-        - build
-        - deploy
+    makefilePath: /Makefile
+    makefileTarget:
+      - build
+      - deploy
   log:
     logPath:
       - /logs/application.log
