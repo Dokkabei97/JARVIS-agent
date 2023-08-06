@@ -1,6 +1,7 @@
-package model
+package common
 
 type Common struct {
+	API      API      `yaml:"api"`
 	Type     string   `yaml:"type"`
 	Script   []Script `yaml:"script,omitempty"`
 	Makefile Makefile `yaml:"makefile,omitempty"`
@@ -19,4 +20,9 @@ type Makefile struct {
 
 type Log struct {
 	logPath string `yaml:"logPath"`
+}
+
+type API struct {
+	Host string `yaml:"host"`
+	Port string `yaml:"port"`
 }
