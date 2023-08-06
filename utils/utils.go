@@ -30,3 +30,13 @@ func (config *Config) GetYamlFile(filepath string) *Config {
 
 	return config
 }
+
+func (config *Config) GetLogPaths() []string {
+	var logPaths []string
+
+	for _, log := range config.Common.Log {
+		logPaths = append(logPaths, log.LogPath)
+	}
+
+	return logPaths
+}

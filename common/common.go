@@ -19,7 +19,7 @@ type Makefile struct {
 }
 
 type Log struct {
-	logPath string `yaml:"logPath"`
+	LogPath string `yaml:"logPath"`
 }
 
 type API struct {
