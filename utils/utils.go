@@ -28,7 +28,27 @@ func (config *Config) GetYamlFile(filepath string) *Config {
 		return nil
 	}
 
+	err = config.validateYaml()
+	if err != nil {
+		fmt.Printf("error: %v", err)
+		return nil
+	}
+
 	return config
+}
+
+func (config *Config) validateYaml() error {
+	if config.Common.Type == "onPremise" {
+		if config.OnPremise == (premise.OnPremise{}) {
+			return fmt.Errorf("onPremise is empty")
+		}
+	} else if config.Common.Type == "docker" {
+		//TODO
+	} else if config.Common.Type == "kube" {
+		//TODO
+	}
+
+	return nil
 }
 
 func (config *Config) GetLogPaths() []string {
