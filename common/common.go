@@ -14,8 +14,7 @@ type Script struct {
 }
 
 type Makefile struct {
-	MakefilePath   string   `yaml:"makefilePath"`
-	MakefileTarget []string `yaml:"makefileTarget"`
+	MakefilePath string `yaml:"makefilePath"`
 }
 
 type Log struct {

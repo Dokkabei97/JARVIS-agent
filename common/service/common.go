@@ -3,6 +3,8 @@ package service
 import (
 	_interface "JARVIS-agent/common/interface"
 	"JARVIS-agent/utils"
+	"os/exec"
+	"strings"
 )
 
 type commonService struct {
@@ -25,7 +27,7 @@ func (c commonService) GetScript(path string) (string, error) {
 	panic("implement me")
 }
 
-func (c commonService) ExecuteScript(path string) (string, error) {
+func (c commonService) ExecuteScript(path string, arguments string) (string, error) {
 	//TODO implement me
 	panic("implement me")
 }
@@ -35,7 +37,15 @@ func (c commonService) GetMakefile(path string) (string, error) {
 	panic("implement me")
 }
 
-func (c commonService) ExecuteMakefile(path string, target string) (string, error) {
+func (c commonService) ExecuteMakefile(path string, arguments string) (string, error) {
+	argument := strings.Split(arguments, " ")
+
+	cmd := exec.Command("make", argument...)
+	_, err := cmd.CombinedOutput()
+	if err != nil {
+		return "", err
+	}
+
 	//TODO implement me
 	panic("implement me")
 }
