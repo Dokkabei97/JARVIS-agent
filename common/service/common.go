@@ -19,3 +19,23 @@ func (c commonService) GetLog(path string) (string, error) {
 	//TODO implement me
 	panic("implement me")
 }
+
+func (c commonService) GetScript(path string) (string, error) {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (c commonService) ExecuteScript(path string) (string, error) {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (c commonService) GetMakefile(path string) (string, error) {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (c commonService) ExecuteMakefile(path string, target string) (string, error) {
+	//TODO implement me
+	panic("implement me")
+}
