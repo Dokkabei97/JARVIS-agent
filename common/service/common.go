@@ -32,6 +32,11 @@ func (c commonService) ExecuteScript(path string, arguments string) (string, err
 	panic("implement me")
 }
 
+func (c commonService) UpdateScript(path string, content string) (string, error) {
+	//TODO implement me
+	panic("implement me")
+}
+
 func (c commonService) GetMakefile(path string) (string, error) {
 	//TODO implement me
 	panic("implement me")
@@ -46,6 +51,11 @@ func (c commonService) ExecuteMakefile(path string, arguments string) (string, e
 		return "", err
 	}
 
+	//TODO implement me
+	panic("implement me")
+}
+
+func (c commonService) UpdateMakefile(path string, content string) (string, error) {
 	//TODO implement me
 	panic("implement me")
 }

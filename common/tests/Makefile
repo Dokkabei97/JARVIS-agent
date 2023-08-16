@@ -1,2 +1,4 @@
 all:
-	echo "Hello"
+	@echo "Hello World"
+hi:
+	@echo "Hi World"
