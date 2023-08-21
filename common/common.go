@@ -25,3 +25,6 @@ type API struct {
 	Host string `yaml:"host"`
 	Port string `yaml:"port"`
 }
+
+type Git struct {
+}

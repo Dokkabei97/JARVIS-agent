@@ -3,6 +3,8 @@ package service
 import (
 	_interface "JARVIS-agent/common/interface"
 	"JARVIS-agent/utils"
+	"fmt"
+	"os"
 	"os/exec"
 	"strings"
 )
@@ -38,8 +40,13 @@ func (c commonService) UpdateScript(path string, content string) (string, error)
 }
 
 func (c commonService) GetMakefile(path string) (string, error) {
-	//TODO implement me
-	panic("implement me")
+	file, err := os.ReadFile(path)
+	if err != nil {
+		fmt.Printf("Error reading file: %v", err)
+		return "", err
+	}
+
+	return string(file), nil
 }
 
 func (c commonService) ExecuteMakefile(path string, arguments string) (string, error) {
@@ -56,6 +63,19 @@ func (c commonService) ExecuteMakefile(path string, arguments string) (string, e
 }
 
 func (c commonService) UpdateMakefile(path string, content string) (string, error) {
-	//TODO implement me
-	panic("implement me")
+	file, err := os.Create(path)
+
+	if err != nil {
+		fmt.Printf("Error creating file: %v", err)
+		return "", err
+	}
+	defer file.Close()
+
+	_, err = file.Write([]byte(content))
+	if err != nil {
+		fmt.Printf("Error writing file: %v", err)
+		return "", err
+	}
+
+	return "Makefile updated", nil
 }
