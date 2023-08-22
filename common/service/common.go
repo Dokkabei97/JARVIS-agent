@@ -3,7 +3,13 @@ package service
 import (
 	_interface "JARVIS-agent/common/interface"
 	"JARVIS-agent/utils"
+	"bufio"
+	"bytes"
 	"fmt"
+	"github.com/fsnotify/fsnotify"
+	"golang.org/x/text/encoding/korean"
+	"golang.org/x/text/transform"
+	"io"
 	"os"
 	"os/exec"
 	"strings"
@@ -78,4 +84,54 @@ func (c commonService) UpdateMakefile(path string, content string) (string, erro
 	}
 
 	return "Makefile updated", nil
+}
+
+func fileWatch(path string) (*fsnotify.Watcher, error) {
+	watcher, err := fsnotify.NewWatcher()
+	if err != nil {
+		return nil, err
+	}
+	defer watcher.Close()
+
+	err = watcher.Add(path)
+	if err != nil {
+		return nil, err
+	}
+
+	return watcher, nil
+}
+
+func convertEncoding(input io.Reader, output io.Writer, transformer transform.Transformer) error {
+	reader := transform.NewReader(input, transformer)
+	_, err := io.Copy(output, reader)
+	return err
+}
+
+func realTimeLogMonitor(file *os.File) {
+	watcher, err := fileWatch(file.Name())
+
+	reader := bufio.NewReader(file)
+	for {
+		if err != nil {
+			if err == io.EOF {
+				select {
+				case event := <-watcher.Events:
+					if event.Op&fsnotify.Write == fsnotify.Write {
+						continue
+					}
+				case err := <-watcher.Errors:
+					fmt.Printf("error: %v", err)
+				}
+			} else {
+				fmt.Printf("error: %v", err)
+			}
+		}
+
+		buf := new(bytes.Buffer)
+		err = convertEncoding(reader, buf, korean.EUCKR.NewDecoder())
+		if err != nil {
+			fmt.Printf("error: %v", err)
+		}
+		//TODO implement me
+	}
 }
