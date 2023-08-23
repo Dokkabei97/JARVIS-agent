@@ -26,13 +26,17 @@ func NewCommonService(util utils.Config) _interface.CommonService {
 }
 
 func (c commonService) GetLog(path string) (string, error) {
-	//TODO implement me
-	panic("implement me")
+	return realTimeLogMonitor(path)
 }
 
-func (c commonService) GetScript(path string) (string, error) {
-	//TODO implement me
-	panic("implement me")
+func (c commonService) GetFile(path string) (string, error) {
+	file, err := os.ReadFile(path)
+	if err != nil {
+		fmt.Printf("Error reading file: %v", err)
+		return "", err
+	}
+
+	return string(file), nil
 }
 
 func (c commonService) ExecuteScript(path string, arguments string) (string, error) {
@@ -43,16 +47,6 @@ func (c commonService) ExecuteScript(path string, arguments string) (string, err
 func (c commonService) UpdateScript(path string, content string) (string, error) {
 	//TODO implement me
 	panic("implement me")
-}
-
-func (c commonService) GetMakefile(path string) (string, error) {
-	file, err := os.ReadFile(path)
-	if err != nil {
-		fmt.Printf("Error reading file: %v", err)
-		return "", err
-	}
-
-	return string(file), nil
 }
 
 func (c commonService) ExecuteMakefile(path string, arguments string) (string, error) {
@@ -107,7 +101,13 @@ func convertEncoding(input io.Reader, output io.Writer, transformer transform.Tr
 	return err
 }
 
-func realTimeLogMonitor(file *os.File) {
+func realTimeLogMonitor(path string) (string, error) {
+	file, err := os.Open(path)
+	if err != nil {
+		fmt.Printf("Error opening file: %v", err)
+		return "", err
+	}
+
 	watcher, err := fileWatch(file.Name())
 
 	reader := bufio.NewReader(file)
@@ -132,6 +132,7 @@ func realTimeLogMonitor(file *os.File) {
 		if err != nil {
 			fmt.Printf("error: %v", err)
 		}
-		//TODO implement me
+
+		return buf.String(), nil
 	}
 }
