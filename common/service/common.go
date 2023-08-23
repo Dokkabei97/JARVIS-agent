@@ -39,12 +39,25 @@ func (c commonService) GetFile(path string) (string, error) {
 	return string(file), nil
 }
 
-func (c commonService) ExecuteScript(path string, arguments string) (string, error) {
-	//TODO implement me
-	panic("implement me")
+func (c commonService) UpdateFile(path string, content string) (string, error) {
+	file, err := os.Create(path)
+
+	if err != nil {
+		fmt.Printf("Error creating file: %v", err)
+		return "", err
+	}
+	defer file.Close()
+
+	_, err = file.Write([]byte(content))
+	if err != nil {
+		fmt.Printf("Error writing file: %v", err)
+		return "", err
+	}
+
+	return "file updated", nil
 }
 
-func (c commonService) UpdateScript(path string, content string) (string, error) {
+func (c commonService) ExecuteScript(path string, arguments string) (string, error) {
 	//TODO implement me
 	panic("implement me")
 }
@@ -60,24 +73,6 @@ func (c commonService) ExecuteMakefile(path string, arguments string) (string, e
 
 	//TODO implement me
 	panic("implement me")
-}
-
-func (c commonService) UpdateMakefile(path string, content string) (string, error) {
-	file, err := os.Create(path)
-
-	if err != nil {
-		fmt.Printf("Error creating file: %v", err)
-		return "", err
-	}
-	defer file.Close()
-
-	_, err = file.Write([]byte(content))
-	if err != nil {
-		fmt.Printf("Error writing file: %v", err)
-		return "", err
-	}
-
-	return "Makefile updated", nil
 }
 
 func fileWatch(path string) (*fsnotify.Watcher, error) {
