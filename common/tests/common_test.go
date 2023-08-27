@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"strings"
 	"testing"
 )
 
@@ -35,4 +36,21 @@ func TestUpdateMakefile(t *testing.T) {
 	defer file.Close()
 
 	file.Write([]byte(content))
+}
+
+func TestExecuteMakefile2(t *testing.T) {
+	testArg := "Arg=wow Arg2=wow2"
+	arguments := strings.Split(testArg, " ")
+
+	arg := []string{"-C", "mt"}
+	arg = append(arg, arguments...)
+
+	cmd := exec.Command("make", arg...)
+
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		fmt.Printf("Error: %s", err)
+	}
+
+	fmt.Printf("Output: %s", string(output))
 }

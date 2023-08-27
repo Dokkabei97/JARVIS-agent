@@ -62,17 +62,20 @@ func (c commonService) ExecuteScript(path string, arguments string) (string, err
 	panic("implement me")
 }
 
-func (c commonService) ExecuteMakefile(path string, arguments string) (string, error) {
+func (c commonService) ExecuteMakefile(arguments string) (string, error) {
+	path := c.utils.Common.Makefile.MakefilePath
 	argument := strings.Split(arguments, " ")
 
-	cmd := exec.Command("make", argument...)
-	_, err := cmd.CombinedOutput()
+	makeCmd := []string{"-C", path}
+	makeCmd = append(makeCmd, argument...)
+
+	cmd := exec.Command("make", makeCmd...)
+	output, err := cmd.CombinedOutput()
 	if err != nil {
 		return "", err
 	}
 
-	//TODO implement me
-	panic("implement me")
+	return string(output), nil
 }
 
 func fileWatch(path string) (*fsnotify.Watcher, error) {
