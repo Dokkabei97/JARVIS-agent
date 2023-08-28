@@ -1,7 +1,16 @@
 package main
 
-import "fmt"
+import (
+	"JARVIS-agent/router"
+	"fmt"
+)
 
 func main() {
-	fmt.Println("INIT PROJECT")
+	const port = ":5500"
+	server := router.SetRouter()
+
+	err := server.Run(port)
+	if err != nil {
+		fmt.Printf("Error: %v\n", err)
+	}
 }
