@@ -2,17 +2,15 @@ package utils
 
 import (
 	"JARVIS-agent/common"
-	"JARVIS-agent/premise"
 	"fmt"
 	"gopkg.in/yaml.v3"
 	"os"
 )
 
 type Config struct {
-	Common    common.Common     `yaml:"common,omitempty"`
-	OnPremise premise.OnPremise `yaml:"onPremise,omitempty"`
-	Docker    string            `yaml:"docker,omitempty"`
-	Kube      string            `yaml:"kube,omitempty"`
+	Common common.Common `yaml:"common,omitempty"`
+	Docker string        `yaml:"docker,omitempty"`
+	Kube   string        `yaml:"kube,omitempty"`
 }
 
 func (config *Config) GetYamlFile(filepath string) *Config {
@@ -38,11 +36,7 @@ func (config *Config) GetYamlFile(filepath string) *Config {
 }
 
 func (config *Config) validateYaml() error {
-	if config.Common.Type == "onPremise" {
-		if config.OnPremise == (premise.OnPremise{}) {
-			return fmt.Errorf("onPremise is empty")
-		}
-	} else if config.Common.Type == "docker" {
+	if config.Common.Type == "docker" {
 		//TODO
 	} else if config.Common.Type == "kube" {
 		//TODO

@@ -58,13 +58,20 @@ func (c commonService) UpdateFile(path string, content string) (string, error) {
 }
 
 func (c commonService) ExecuteScript(path string, arguments string) (string, error) {
-	//TODO implement me
-	panic("implement me")
+	argument := getArgs(arguments)
+
+	cmd := exec.Command(path, argument...)
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		return "", err
+	}
+
+	return string(output), nil
 }
 
 func (c commonService) ExecuteMakefile(arguments string) (string, error) {
 	path := c.utils.Common.Makefile.MakefilePath
-	argument := strings.Split(arguments, " ")
+	argument := getArgs(arguments)
 
 	makeCmd := []string{"-C", path}
 	makeCmd = append(makeCmd, argument...)
@@ -76,6 +83,10 @@ func (c commonService) ExecuteMakefile(arguments string) (string, error) {
 	}
 
 	return string(output), nil
+}
+
+func getArgs(arguments string) []string {
+	return strings.Split(arguments, " ")
 }
 
 func fileWatch(path string) (*fsnotify.Watcher, error) {
