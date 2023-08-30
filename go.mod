@@ -11,6 +11,7 @@ require (
 
 require (
 	github.com/bytedance/sonic v1.10.0-rc3 // indirect
+	github.com/docker/docker v24.0.5+incompatible // indirect
 	github.com/go-playground/validator/v10 v10.14.1 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.5 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.9 // indirect
