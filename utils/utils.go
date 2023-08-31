@@ -2,6 +2,7 @@ package utils
 
 import (
 	"JARVIS-agent/common"
+	"JARVIS-agent/docker"
 	"fmt"
 	"gopkg.in/yaml.v3"
 	"os"
@@ -9,7 +10,7 @@ import (
 
 type Config struct {
 	Common common.Common `yaml:"common,omitempty"`
-	Docker string        `yaml:"docker,omitempty"`
+	Docker docker.Docker `yaml:"docker,omitempty"`
 	Kube   string        `yaml:"kube,omitempty"`
 }
 
