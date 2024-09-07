@@ -103,8 +103,19 @@ func (ds dockerService) RestartContainer(containerId string) (string, error) {
 }
 
 func (ds dockerService) RemoveContainer(containerId string, isForce bool) (string, error) {
-	//TODO implement me
-	panic("implement me")
+	dockerCLi, err := ds.utils.GetDockerClient()
+	if err != nil {
+		return "", err
+	}
+
+	err = dockerCLi.ContainerRemove(context.Background(), containerId, types.ContainerRemoveOptions{
+		Force: isForce,
+	})
+	if err != nil {
+		return "", err
+	}
+
+	return "Container removed successfully", nil
 }
 
 func (ds dockerService) PullImage(imageName string) (string, error) {
@@ -118,8 +129,19 @@ func (ds dockerService) PushImage(imageName string) (string, error) {
 }
 
 func (ds dockerService) RemoveImage(imageName string, isForce bool) (string, error) {
-	//TODO implement me
-	panic("implement me")
+	dockerCLi, err := ds.utils.GetDockerClient()
+	if err != nil {
+		return "", err
+	}
+
+	_, err = dockerCLi.ImageRemove(context.Background(), imageName, types.ImageRemoveOptions{
+		Force: isForce,
+	})
+	if err != nil {
+		return "", err
+	}
+
+	return "Image removed successfully", nil
 }
 
 func (ds dockerService) GetImageList() ([]docker.Image, error) {
