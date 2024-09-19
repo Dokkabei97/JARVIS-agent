@@ -1,4 +1,4 @@
-FROM golang:1.20
+FROM golang:1.20 AS builder
 
 WORKDIR /home/app
 
@@ -10,4 +10,10 @@ WORKDIR /home/app/cmd
 
 RUN go build -o main .
 
-CMD ["/home/app/cmd/main"]
+FROM alpine:latest
+
+WORKDIR /home/app
+
+COPY --from=builder /home/app/cmd/main .
+
+CMD ["./main"]

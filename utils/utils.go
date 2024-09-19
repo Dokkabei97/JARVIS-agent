@@ -2,14 +2,16 @@ package utils
 
 import (
 	"JARVIS-agent/common"
+	"JARVIS-agent/docker"
 	"fmt"
+	"github.com/docker/docker/client"
 	"gopkg.in/yaml.v3"
 	"os"
 )
 
 type Config struct {
 	Common common.Common `yaml:"common,omitempty"`
-	Docker string        `yaml:"docker,omitempty"`
+	Docker docker.Docker `yaml:"docker,omitempty"`
 	Kube   string        `yaml:"kube,omitempty"`
 }
 
@@ -26,31 +28,25 @@ func (config *Config) GetYamlFile(filepath string) *Config {
 		return nil
 	}
 
-	err = config.validateYaml()
-	if err != nil {
-		fmt.Printf("error: %v", err)
-		return nil
-	}
-
 	return config
 }
 
-func (config *Config) validateYaml() error {
+func (config *Config) GetDockerClient() (client.Client, error) {
 	if config.Common.Type == "docker" {
-		//TODO
-	} else if config.Common.Type == "kube" {
-		//TODO
-	}
+		dockerClient, err := client.NewClientWithOpts(client.FromEnv, client.WithAPIVersionNegotiation())
+		if err != nil {
+			fmt.Printf("error: %v", err)
+			return client.Client{}, err
+		}
 
-	return nil
+		return *dockerClient, nil
+	}
+	return client.Client{}, nil
 }
 
-func (config *Config) GetLogPaths() []string {
-	var logPaths []string
-
-	for _, log := range config.Common.Log {
-		logPaths = append(logPaths, log.LogPath)
+func (config *Config) GetKubernetesClient() error {
+	if config.Common.Type == "kubernetes" {
+		//TODO
 	}
-
-	return logPaths
+	return nil
 }
